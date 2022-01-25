@@ -4,7 +4,7 @@ namespace Marmalade
 {
 	public class Ship
 	{
-		int size;
+		public int size;
 
 		public Ship(int s)
 		{
