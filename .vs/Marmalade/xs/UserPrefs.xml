@@ -1,8 +1,9 @@
 ﻿<Properties StartupConfiguration="{0A111687-449F-446C-9AB8-79E844BA3A0E}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Marmalade/Program.cs">
     <Files>
+      <File FileName="Marmalade/Program.cs" Line="37" Column="38" />
       <File FileName="Marmalade/Ship.cs" Line="13" Column="13" />
-      <File FileName="Marmalade/Program.cs" Line="81" Column="41" />
+      <File FileName="Marmalade/Log.cs" Line="20" Column="20" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

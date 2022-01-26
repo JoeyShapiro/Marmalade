@@ -33,6 +33,8 @@ Ship[] ships2Place = // need to add elsewhere, since placeShip() handles in ship
     new Ship(5, "Carrier")
 }; // the ships the player has to place // do they have names
 int shipsPlaced = 0;
+// logs
+Queue<string> logs = new Queue<string>();
 
 void placeShip(Ship ship, int x, int y, bool rot) // smert // with ship super smert
 {
@@ -59,7 +61,8 @@ void placeShip(Ship ship, int x, int y, bool rot) // smert // with ship super sm
         for (int i = 0; i < ship.size; i++)
             map[x, y + i] = itemNo;
     }
-    ships[itemNo++] = ship; // store in array with its # as index
+    enque("Placed " + ship.name + " at (" + x + "," + y + ")");
+    ships[itemNo++] = ship; // store in array with its # as index // maybe clone
     shipsPlaced++; // do here, so it only does after good, maybe have return true, but this is fine too
         
 }
@@ -107,10 +110,42 @@ void drawGhost(Ship sh) // use local or main when pass
             NCurses.MoveAddChar(x + 1+i, y + 1, 'g');
 }
 
+
+int curSize = 0;
+int size = 6;
+int logC = 0;
+void enque(string msg)
+{
+    if (curSize >= size)
+    {
+        logs.Dequeue();
+        logs.Enqueue(logC++ + " "+ msg);
+    } // fine i guess, but learn about circle queue, that is what this needs, only show first and remove first(last one shown)
+    else
+    {
+        logs.Enqueue(logC++ + " " + msg);
+        curSize++;
+    }
+}
+
+void drawLogs() // other time lucked out by passing values in c++, this doesnt, maybe
+{
+    Queue<string> tmpLogs = new (logs); // in higher level must be clone
+    int l = 0;
+    while (tmpLogs.Count != 0)
+    {
+        NCurses.MoveAddString(SIZE+2 + l, 1, tmpLogs.Peek()); // x actually y?
+        tmpLogs.Dequeue();
+        l++;
+    }
+
+}
+
 NCurses.MoveAddString(0, 0, "press any key to continue...");
 //placeShip(ship, 0, 0, false);
 //placeShip(ship, 0, 0, true); // shouldnt be placed // does this add to itemNO // no because it returns early
 //placeShip(ship, 0, 4, true);
+enque("https://github.com/JoeyShapiro/Marmalade");
 
 while(keepGoing) {
     kin = NCurses.GetChar(); // its async
@@ -128,6 +163,7 @@ while(keepGoing) {
     NCurses.MoveAddString(SIZE+1, 1, "******");
     NCurses.MoveAddString(1, SIZE+1, "*");
     string str = "char: (char)" + kin + " char: " + (char)kin + " times: " + i++;
+    drawLogs();
     NCurses.MoveAddString(18, 0, str);
     NCurses.MoveAddChar(x+1, y+1, 'x'); // player, must be after map
     NCurses.Refresh();
